@@ -28,7 +28,7 @@ describe('AddThreadUseCase', () => {
     });
 
     // Action
-    const addedThread = await threadUseCase.execute(useCasePayload);
+    const addedThread = await threadUseCase.execute(useCasePayload, 'owner-123');
 
     // Assert
     expect(addedThread).toStrictEqual(new AddedThread({
@@ -37,9 +37,6 @@ describe('AddThreadUseCase', () => {
       owner: 'user-123',
     }));
 
-    expect(mockThreadRepository.addThread).toBeCalledWith(new AddThread({
-      title: useCasePayload.title,
-      body: useCasePayload.body,
-    }));
+    expect(mockThreadRepository.addThread).toBeCalledWith(new AddThread(useCasePayload), 'owner-123');
   });
 });

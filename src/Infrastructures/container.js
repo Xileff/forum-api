@@ -49,14 +49,16 @@ container.register([
   {
     key: ThreadRepository.name,
     Class: ThreadRepositoryPostgres,
-    parameter: [
-      {
-        concrete: pool,
-      },
-      {
-        concrete, nanoid,
-      },
-    ],
+    parameter: {
+      dependencies: [
+        {
+          concrete: pool,
+        },
+        {
+          concrete: nanoid,
+        },
+      ],
+    },
   },
   {
     key: AuthenticationRepository.name,

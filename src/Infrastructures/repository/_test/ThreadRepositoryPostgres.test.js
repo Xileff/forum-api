@@ -23,13 +23,12 @@ describe('ThreadRepositoryPostgres', () => {
         title: 'ini judul',
         body: 'ini body',
       });
-      newThread.owner = 'user-123';
 
       const fakeIdGenerator = () => '123';
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
-      await threadRepositoryPostgres.addThread(newThread);
+      await threadRepositoryPostgres.addThread(newThread, 'user-123');
 
       // Assert
       const threads = await ThreadsTableTestHelper.findThreadsById('thread-123');
@@ -43,13 +42,12 @@ describe('ThreadRepositoryPostgres', () => {
         title: 'ini judul',
         body: 'ini body',
       });
-      newThread.owner = 'user-123';
 
       const fakeIdGenerator = () => '123';
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, fakeIdGenerator);
 
       // Action
-      const addedThread = await threadRepositoryPostgres.addThread(newThread);
+      const addedThread = await threadRepositoryPostgres.addThread(newThread, 'user-123');
 
       // Assert
       expect(addedThread).toStrictEqual(new AddedThread({
