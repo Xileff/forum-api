@@ -17,6 +17,11 @@ exports.up = (pgm) => {
       type: 'TEXT',
       notNull: true,
     },
+    date: {
+      type: 'DATE',
+      default: 'NOW()',
+      notNull: true,
+    },
     owner: {
       type: 'VARCHAR(50)',
     },
