@@ -16,6 +16,11 @@ exports.up = (pgm) => {
       type: 'BOOLEAN',
       default: false,
     },
+    date: {
+      type: 'DATETIME',
+      default: 'NOW()',
+      notNull: true,
+    },
     owner: {
       type: 'VARCHAR(50)',
       notNull: true,

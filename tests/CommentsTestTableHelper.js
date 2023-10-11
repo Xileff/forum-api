@@ -6,7 +6,7 @@ const CommentsTableTestHelper = {
     id = 'comment-123', content = 'ini komentar', isDelete = false, owner = 'user-123', thread = 'thread-123',
   }) {
     const query = {
-      text: 'INSERT INTO INTO comments VALUES($1, $2, $3, $4, $5)',
+      text: 'INSERT INTO comments VALUES($1, $2, $3, $4, $5)',
       values: [id, content, isDelete, owner, thread],
     };
 
@@ -15,7 +15,7 @@ const CommentsTableTestHelper = {
 
   async findCommentsById(id) {
     const query = {
-      text: 'SELECT * FROM comments WHERE id = $1',
+      text: 'SELECT * FROM comments WHERE id = $1 AND is_delete = false',
       values: [id],
     };
 
