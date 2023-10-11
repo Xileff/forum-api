@@ -17,7 +17,7 @@ exports.up = (pgm) => {
       default: false,
     },
     date: {
-      type: 'DATETIME',
+      type: 'DATE',
       default: 'NOW()',
       notNull: true,
     },
