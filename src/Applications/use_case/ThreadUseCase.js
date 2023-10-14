@@ -11,9 +11,9 @@ class ThreadUseCase {
     return this._threadRepository.addThread(thread, owner);
   }
 
-  async getDetail(threadId) {
-    const thread = this._threadRepository.getThread(threadId);
-    const comments = this._commentRepository.getCommentsByThreadId(threadId);
+  async get(threadId) {
+    const thread = await this._threadRepository.getThread(threadId);
+    const comments = await this._commentRepository.getCommentsByThreadId(threadId);
     return { ...thread, comments };
   }
 }

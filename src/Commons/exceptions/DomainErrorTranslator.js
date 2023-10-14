@@ -19,6 +19,9 @@ DomainErrorTranslator._directories = {
   'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('refresh token harus string'),
   'ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('Judul dan isi thread tidak boleh kosong'),
   'ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('Judul dan isi thread harus string'),
+  'ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError('Komentar tidak boleh kosong'),
+  'ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('Komentar harus string'),
+  'ADD_COMMENT.CONTAIN_RESTRICTED_CHARACTER': new InvariantError('Komentar mengandung karakter terlarang'),
 };
 
 module.exports = DomainErrorTranslator;
