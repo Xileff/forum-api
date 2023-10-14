@@ -9,6 +9,8 @@ class ThreadUseCase {
     const thread = new AddThread(useCasePayload);
     return this._threadRepository.addThread(thread, owner);
   }
+
+  // TODO : get detail
 }
 
 module.exports = ThreadUseCase;

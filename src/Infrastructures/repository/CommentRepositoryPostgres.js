@@ -44,7 +44,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     }
 
     const deleteQuery = {
-      text: 'UPDATE comments SET is_delete = true WHERE id = $1 AND owner = $2 AND thread = $3 RETURNING id',
+      text: 'UPDATE comments SET is_delete = true, content = \'**komentar telah dihapus**\' WHERE id = $1 AND owner = $2 AND thread = $3 RETURNING id',
       values: [commentId, ownerId, threadId],
     };
 
