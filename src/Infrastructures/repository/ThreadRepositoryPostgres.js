@@ -44,7 +44,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     });
   }
 
-  async countThreadById(threadId) {
+  async isThreadExist(threadId) {
     const query = {
       text: 'SELECT id FROM threads WHERE id = $1',
       values: [threadId],
@@ -52,7 +52,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
     const result = await this._pool.query(query);
 
-    return result.rowCount;
+    return result.rowCount === 1;
   }
 }
 
