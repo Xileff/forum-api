@@ -4,9 +4,7 @@ const AddComment = require('../../../Domains/comments/entities/AddComment');
 const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
-const NotFoundError = require('../../../Commons/exceptions/NotFoundError');
 const pool = require('../../database/postgres/pool');
-const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError');
 
 describe('CommentRepositoryPostgres', () => {
   afterEach(async () => {
@@ -61,26 +59,6 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('deleteComment', () => {
-    it('should throw NotFoundError when comment or thread not found', async () => {
-      // Arrange
-      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-
-      // Action & Assert
-      await expect(commentRepositoryPostgres.deleteComment('comment-123', 'user-123', 'thread-123')).rejects.toThrowError(NotFoundError);
-    });
-
-    it('should throw AuthorizationError when the comment is not owned by user', async () => {
-      // Arrange
-      await UsersTableTestHelper.addUser({ id: 'user-123' });
-      await ThreadsTableTestHelper.addThread({ id: 'thread-123' });
-      await CommentsTableTestHelper.addComment({ id: 'comment-123' });
-      await UsersTableTestHelper.addUser({ id: 'user-321', username: 'badguy123' });
-      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
-
-      // Action & Assert
-      await expect(commentRepositoryPostgres.deleteComment('comment-123', 'user-321', 'thread-123')).rejects.toThrowError(AuthorizationError);
-    });
-
     it('should delete the comment from database', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({ id: 'user-123' });

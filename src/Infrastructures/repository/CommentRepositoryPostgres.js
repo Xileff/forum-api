@@ -1,7 +1,5 @@
 const AddedComment = require('../../Domains/comments/entities/AddedComment');
 const CommentRepository = require('../../Domains/comments/CommentRepository');
-const NotFoundError = require('../../Commons/exceptions/NotFoundError');
-const AuthorizationError = require('../../Commons/exceptions/AuthorizationError');
 const RetrievedComment = require('../../Domains/comments/entities/RetrievedComment');
 
 class CommentRepositoryPostgres extends CommentRepository {
@@ -23,7 +21,6 @@ class CommentRepositoryPostgres extends CommentRepository {
     };
 
     const result = await this._pool.query(query);
-
     return new AddedComment({ ...result.rows[0] });
   }
 
@@ -43,7 +40,6 @@ class CommentRepositoryPostgres extends CommentRepository {
     };
 
     const result = await this._pool.query(query);
-
     return result.rows.map((row) => new RetrievedComment({
       id: row.id, username: row.username, date: row.date.toISOString(), content: row.content,
     }));
@@ -56,7 +52,6 @@ class CommentRepositoryPostgres extends CommentRepository {
     };
 
     const result = await this._pool.query(query);
-
     return result.rows[0].owner === ownerId;
   }
 
@@ -67,7 +62,6 @@ class CommentRepositoryPostgres extends CommentRepository {
     };
 
     const result = await this._pool.query(query);
-
     return result.rowCount === 1;
   }
 }

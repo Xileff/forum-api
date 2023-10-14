@@ -32,10 +32,6 @@ class CommentUseCase {
 
     return this._commentRepository.deleteComment(commentId, userId, threadId);
   }
-
-  async get(threadId) {
-    return this._commentRepository.getComments(threadId);
-  }
 }
 
 module.exports = CommentUseCase;
