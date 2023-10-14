@@ -1,8 +1,9 @@
 const AddThread = require('../../Domains/threads/entities/AddThread');
 
 class ThreadUseCase {
-  constructor({ threadRepository }) {
+  constructor({ threadRepository, commentRepository }) {
     this._threadRepository = threadRepository;
+    this._commentRepository = commentRepository;
   }
 
   async add(useCasePayload, owner) {
@@ -10,7 +11,11 @@ class ThreadUseCase {
     return this._threadRepository.addThread(thread, owner);
   }
 
-  // TODO : get detail
+  async getDetail(threadId) {
+    const thread = this._threadRepository.getThread(threadId);
+    const comments = this._commentRepository.getCommentsByThreadId(threadId);
+    return { ...thread, comments };
+  }
 }
 
 module.exports = ThreadUseCase;

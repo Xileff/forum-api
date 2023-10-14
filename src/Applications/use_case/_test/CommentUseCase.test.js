@@ -27,7 +27,7 @@ describe('CommentUseCase', () => {
     });
 
     // Action
-    const addedComment = await commentUseCase.add(commentPayload, 'user-123');
+    const addedComment = await commentUseCase.add(commentPayload, 'user-123', 'thread-123');
 
     // Assert
     expect(addedComment).toStrictEqual(new AddedComment({
@@ -36,7 +36,7 @@ describe('CommentUseCase', () => {
       owner: 'user-123',
     }));
 
-    expect(mockCommentRepository.addComment).toBeCalledWith(new AddComment(commentPayload), 'user-123');
+    expect(mockCommentRepository.addComment).toBeCalledWith(new AddComment(commentPayload), 'user-123', 'thread-123');
   });
 
   it('should orchestrating the delete comment action correctly', async () => {

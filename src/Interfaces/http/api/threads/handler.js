@@ -21,6 +21,19 @@ class ThreadsHandler {
     response.code(201);
     return response;
   }
+
+  async getThreadHandler(request, h) {
+    const { threadId } = request.params;
+    const threadUseCase = this._container.getInstance(ThreadUseCase.name);
+    const thread = await threadUseCase.getThread(threadId);
+
+    return {
+      status: 'success',
+      data: {
+        thread,
+      },
+    };
+  }
 }
 
 module.exports = ThreadsHandler;
