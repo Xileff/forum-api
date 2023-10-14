@@ -1,4 +1,5 @@
 const AddedThread = require('../../Domains/threads/entities/AddedThread');
+const RetrievedThread = require('../../Domains/threads/entities/RetrievedThread');
 const ThreadRepository = require('../../Domains/threads/ThreadRepository');
 
 class ThreadRepositoryPostgres extends ThreadRepository {
@@ -21,6 +22,26 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     const result = await this._pool.query(query);
 
     return new AddedThread({ ...result.rows[0] });
+  }
+
+  async getThread(threadId) {
+    const query = {
+      text: `SELECT t.id, t.title, t.body, t.date, u.username
+      FROM threads t
+      LEFT JOIN users u ON t.owner = u.id
+      WHERE t.id = $1`,
+      values: [threadId],
+    };
+
+    const result = await this._pool.query(query);
+
+    const {
+      id, title, body, date, username,
+    } = result.rows[0];
+
+    return new RetrievedThread({
+      id, title, body, date: date.toISOString(), username,
+    });
   }
 }
 
