@@ -32,4 +32,19 @@ describe('a AddThread entities', () => {
     // Action and Assert
     expect(() => new AddThread(payload)).toThrowError('ADD_THREAD.CONTAIN_RESTRICTED_CHARACTER');
   });
+
+  it('should create addThread object correctly', () => {
+    // Arrange
+    const payload = {
+      title: 'abc',
+      body: 'abc',
+    };
+
+    // Action
+    const { title, body } = new AddThread(payload);
+
+    // Assert
+    expect(title).toEqual(payload.title);
+    expect(body).toEqual(payload.body);
+  });
 });

@@ -30,4 +30,17 @@ describe('an AddComment entity', () => {
     // Action and Assert
     expect(() => new AddComment(payload)).toThrowError('ADD_COMMENT.CONTAIN_RESTRICTED_CHARACTER');
   });
+
+  it('should create addComment object correctly', () => {
+    // Arrange
+    const payload = {
+      content: 'abc',
+    };
+
+    // Action
+    const { content } = new AddComment(payload);
+
+    // Assert
+    expect(content).toEqual(payload.content);
+  });
 });

@@ -67,9 +67,10 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       // Action
-      await commentRepositoryPostgres.deleteComment('comment-123', 'user-123', 'thread-123');
+      const id = await commentRepositoryPostgres.deleteComment('comment-123', 'user-123', 'thread-123');
 
       // Assert
+      expect(id).toStrictEqual('comment-123');
       const comments = await CommentsTableTestHelper.findCommentsById('comment-123');
       expect(comments).toHaveLength(0);
     });
@@ -93,6 +94,28 @@ describe('CommentRepositoryPostgres', () => {
 
       // Assert
       expect(comments).toHaveLength(2);
+      const [comment1, comment2] = comments;
+      expect(comment1.id).toStrictEqual('comment-123');
+      expect(comment1.username).toStrictEqual('someguy');
+      expect(comment2.id).toStrictEqual('comment-321');
+      expect(comment2.username).toStrictEqual('anotherguy');
+    });
+  });
+
+  describe('verifyCommentOwner', () => {
+    it('should throw AuthorizationError when comment not owned by owner', async () => {
+      // Arrange
+      await UsersTableTestHelper.addUser({ id: 'user-123', username: 'someguy' });
+      await UsersTableTestHelper.addUser({ id: 'user-321', username: 'anotherguy' });
+
+      await ThreadsTableTestHelper.addThread({ id: 'thread-123', owner: 'user-123' });
+
+      await CommentsTableTestHelper.addComment({ id: 'comment-123', thread: 'thread-123', owner: 'user-123' });
+
+      const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      await expect(commentRepositoryPostgres.verifyCommentOwner('comment-123', 'user-321')).rejects.toThrowError('Anda tidak berhak mengakses resource ini');
     });
   });
 });

@@ -76,4 +76,14 @@ describe('ThreadRepositoryPostgres', () => {
       expect(retrievedThread.username).toStrictEqual('dicoding');
     });
   });
+
+  describe('verifyThreadExists function', () => {
+    it('should throw NotFoundError when thread not exists', async () => {
+      // Arrange
+      const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
+
+      // Action & Assert
+      await expect(threadRepositoryPostgres.verifyThreadExists('thread-123')).rejects.toThrowError('Thread tidak ditemukan');
+    });
+  });
 });

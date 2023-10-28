@@ -24,8 +24,7 @@ describe('CommentUseCase', () => {
           owner: 'user-123',
         })));
 
-      // Mocking isThreadExist in threadRepository
-      mockThreadRepository.isThreadExist = jest.fn().mockReturnValue(true);
+      mockThreadRepository.verifyThreadExists = jest.fn().mockReturnValue(true);
 
       // creating the use case instance
       const commentUseCase = new CommentUseCase({
@@ -43,6 +42,7 @@ describe('CommentUseCase', () => {
         owner: 'user-123',
       }));
 
+      expect(mockThreadRepository.verifyThreadExists).toBeCalledWith('thread-123');
       expect(mockCommentRepository.addComment).toBeCalledWith(new AddComment(commentPayload), 'user-123', 'thread-123');
     });
   });
@@ -57,11 +57,11 @@ describe('CommentUseCase', () => {
       const mockCommentRepository = new CommentRepository();
       const mockThreadRepository = new ThreadRepository();
 
-      mockThreadRepository.isThreadExist = jest.fn()
+      mockThreadRepository.verifyThreadExists = jest.fn()
         .mockImplementation(() => Promise.resolve(true));
-      mockCommentRepository.isCommentExist = jest.fn()
+      mockCommentRepository.verifyCommentExists = jest.fn()
         .mockImplementation(() => Promise.resolve(true));
-      mockCommentRepository.isCommentOwner = jest.fn()
+      mockCommentRepository.verifyCommentOwner = jest.fn()
         .mockImplementation(() => Promise.resolve(true));
       mockCommentRepository.deleteComment = jest.fn()
         .mockImplementation(() => Promise.resolve(commentId));
@@ -77,6 +77,9 @@ describe('CommentUseCase', () => {
       // Assert
       expect(deletedComment).toStrictEqual(commentId);
       expect(mockCommentRepository.deleteComment).toBeCalledWith(commentId, userId, threadId);
+      expect(mockCommentRepository.verifyCommentOwner).toBeCalledWith(commentId, userId);
+      expect(mockCommentRepository.verifyCommentExists).toBeCalledWith(commentId);
+      expect(mockThreadRepository.verifyThreadExists).toBeCalledWith(threadId);
     });
   });
 });
