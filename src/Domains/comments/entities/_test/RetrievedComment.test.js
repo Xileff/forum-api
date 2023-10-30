@@ -26,6 +26,7 @@ describe('Retrieved Comment entity', () => {
       username: 'dicoding',
       date: '2021-08-08T07:59:57.000Z',
       content: 'ini komentar',
+      isDelete: false,
     };
 
     const {
@@ -36,5 +37,15 @@ describe('Retrieved Comment entity', () => {
     expect(username).toEqual(payload.username);
     expect(date).toEqual(payload.date);
     expect(content).toEqual(payload.content);
+
+    const deletedCommentPayload = {
+      id: 'comment-123',
+      username: 'dicoding',
+      date: '2021-08-08T07:59:57.000Z',
+      content: 'ini komentar',
+      isDelete: true,
+    };
+
+    expect(new RetrievedComment(deletedCommentPayload).content).toEqual('**komentar telah dihapus**');
   });
 });
