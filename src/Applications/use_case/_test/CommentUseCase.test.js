@@ -24,7 +24,8 @@ describe('CommentUseCase', () => {
           owner: 'user-123',
         })));
 
-      mockThreadRepository.verifyThreadExists = jest.fn().mockReturnValue(true);
+      mockThreadRepository.verifyThreadExists = jest.fn()
+        .mockImplementation(() => Promise.resolve());
 
       // creating the use case instance
       const commentUseCase = new CommentUseCase({
@@ -58,11 +59,11 @@ describe('CommentUseCase', () => {
       const mockThreadRepository = new ThreadRepository();
 
       mockThreadRepository.verifyThreadExists = jest.fn()
-        .mockImplementation(() => Promise.resolve(true));
+        .mockImplementation(() => Promise.resolve());
       mockCommentRepository.verifyCommentExists = jest.fn()
-        .mockImplementation(() => Promise.resolve(true));
+        .mockImplementation(() => Promise.resolve());
       mockCommentRepository.verifyCommentOwner = jest.fn()
-        .mockImplementation(() => Promise.resolve(true));
+        .mockImplementation(() => Promise.resolve());
       mockCommentRepository.deleteComment = jest.fn()
         .mockImplementation(() => Promise.resolve(commentId));
 
