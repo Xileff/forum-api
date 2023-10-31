@@ -15,6 +15,7 @@ describe('Retrieved Comment entity', () => {
       username: 10101,
       date: true,
       content: 'ini komentar',
+      isDelete: 'benar',
     };
 
     expect(() => new RetrievedComment(payload)).toThrowError('RETRIEVED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
@@ -30,13 +31,14 @@ describe('Retrieved Comment entity', () => {
     };
 
     const {
-      id, username, date, content,
+      id, username, date, content, isDelete,
     } = new RetrievedComment(payload);
 
     expect(id).toEqual(payload.id);
     expect(username).toEqual(payload.username);
     expect(date).toEqual(payload.date);
     expect(content).toEqual(payload.content);
+    expect(isDelete).toEqual(payload.isDelete);
 
     const deletedCommentPayload = {
       id: 'comment-123',
@@ -46,6 +48,18 @@ describe('Retrieved Comment entity', () => {
       isDelete: true,
     };
 
-    expect(new RetrievedComment(deletedCommentPayload).content).toEqual('**komentar telah dihapus**');
+    const {
+      id: deletedCommentId,
+      username: deletedCommentUsername,
+      date: deletedCommentDate,
+      content: deletedCommentContent,
+      isDelete: deletedCommentIsDelete,
+    } = new RetrievedComment(deletedCommentPayload);
+
+    expect(deletedCommentId).toEqual(deletedCommentPayload.id);
+    expect(deletedCommentUsername).toEqual(deletedCommentPayload.username);
+    expect(deletedCommentDate).toEqual(deletedCommentPayload.date);
+    expect(deletedCommentContent).toEqual('**komentar telah dihapus**');
+    expect(deletedCommentIsDelete).toEqual(deletedCommentPayload.isDelete);
   });
 });

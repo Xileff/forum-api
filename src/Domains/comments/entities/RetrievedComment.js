@@ -16,7 +16,7 @@ class RetrievedComment {
   _verifyPayload({
     id, username, date, content, isDelete,
   }) {
-    if (!id || !username || !date || !content) {
+    if (!id || !username || !date || !content || isDelete === undefined) {
       throw new Error('RETRIEVED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
